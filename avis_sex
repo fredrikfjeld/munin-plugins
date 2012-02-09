@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# Henter forsiden fra de største norske nettavisene 
+# og teller antall ganger det står "sex"
+
+case $1 in
+   config)
+        cat <<'EOM'
+graph_title Antall ganger norske medier har SEX paa forsiden
+graph_vlabel Antall
+graph_category other
+vg.label VG
+db.label Dagbladet
+ap.label Aftenposten
+nrk.label NRK
+na.label Nettavisen
+EOM
+        exit 0;;
+esac
+
+echo -n "vg.value "
+curl -s http://www.vg.no | grep sex | wc -l
+echo -n "db.value "
+curl -s http://www.dagbladet.no | grep sex | wc -l
+echo -n "ap.value "
+curl -s http://www.aftenposten.no | grep sex | wc -l
+echo -n "nrk.value "
+curl -s http://www.nrk.no | grep sex | wc -l
+echo -n "na.value "
+curl -s http://www.nettavisen.no | grep sex | wc -l
