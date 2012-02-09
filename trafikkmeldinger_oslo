@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case $1 in
+   config)
+        cat <<'EOM'
+graph_title Trafikkmeldinger for Oslo fra Vegvesenet
+graph_vlabel Antall
+graph_category other
+forhold.label Vaer- og foereforhold
+stengt.label Stengt
+redusert.label Redusert framkommelighet
+EOM
+        exit 0;;
+esac
+
+echo -n "forhold.value "
+curl -s "http://www.vegvesen.no/trafikk/xml/search.rss?searchFocus.counties=3" | grep -i "forhold" | wc -l
+echo -n "stengt.value "
+curl -s "http://www.vegvesen.no/trafikk/xml/search.rss?searchFocus.counties=3" | grep -i "stengt" | wc -l
+echo -n "redusert.value "
+curl -s "http://www.vegvesen.no/trafikk/xml/search.rss?searchFocus.counties=3" | grep -i "redusert" | wc -l
