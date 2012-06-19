@@ -10,10 +10,15 @@ graph_title Antall ganger norske medier har SEX paa forsiden
 graph_vlabel Antall
 graph_category other
 vg.label VG
+vg.draw LINE1
 db.label Dagbladet
+db.draw LINE1
 ap.label Aftenposten
+ap.draw LINE1
 nrk.label NRK
+nrk.draw LINE1
 na.label Nettavisen
+na.draw LINE1
 EOM
         exit 0;;
 esac
