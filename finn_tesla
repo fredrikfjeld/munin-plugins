@@ -141,4 +141,3 @@ fi
 TOTALP85=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=p85&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&sort=9" | grep "resultlist-counter" | cut -d">" -f 2 | cut -d"<" -f1)
 P85PLUSCARS=$(expr $TOTALP85 - $P85DCARS - $P85CARS)
 echo "p85plus.value $P85PLUSCARS"
-
