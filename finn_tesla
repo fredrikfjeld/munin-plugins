@@ -1,0 +1,144 @@
+#!/bin/bash
+
+if [ "$1" = "config" ]; then
+    echo 'graph_title Number of Tesla Model S for sale on Finn.no'
+    echo 'graph_vlabel For sale'
+    echo 'graph_category other'
+    echo 's85.label S85'
+    echo 's85.draw LINE1'
+    echo 'p85.label P85'
+    echo 'p85.draw LINE1'
+    echo 'p85plus.label P85+'
+    echo 'p85plus.draw LINE1'
+    echo 'p85d.label P85D'
+    echo 'p85d.draw LINE1'
+    echo 's60.label S60'
+    echo 's60.draw LINE1'
+    exit 0
+fi
+
+
+######
+## S60
+######
+SEARCH="s60"
+SITE=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=$SEARCH&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&sort=9")
+
+if [ `echo $SITE | grep -ci "pagination"` = 1 ]
+    then
+    PAGES=$(echo "$SITE" | grep search_pager | wc -l)
+    PAGES=$(expr $PAGES / 2)
+
+    CARS=$(echo "$SITE" | grep "searchclickthrough" | egrep '[s|S][[:blank:]]?60(,?)' | grep -vi "performance" | wc -l)
+
+    COUNTER=1
+    while [ $COUNTER -lt $PAGES ]; do
+        let COUNTER=COUNTER+1
+        NEXTSITE=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=$SEARCH&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&page=$COUNTER&sort=9")
+        CARSTHISPAGE=$(echo "$NEXTSITE" | grep "searchclickthrough" | egrep '[s|S][[:blank:]]?60(,?)' | grep -vi "performance" | wc -l)
+        let CARS=CARS+CARSTHISPAGE
+    done
+
+    echo "$SEARCH.value $CARS"
+else
+    CARS=$(echo "$SITE" | grep "searchclickthrough" | egrep '[s|S][[:blank:]]?85(,?)' | grep -vi "performance" | wc -l)
+    let CARS=CARS+0 # Make int
+    echo "$SEARCH.value $CARS"
+fi
+
+
+######
+## S85
+######
+SEARCH="s85"
+SITE=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=$SEARCH&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&sort=9")
+
+if [ `echo $SITE | grep -ci "pagination"` = 1 ]
+    then
+    PAGES=$(echo "$SITE" | grep search_pager | wc -l)
+    PAGES=$(expr $PAGES / 2)
+
+    CARS=$(echo "$SITE" | grep "searchclickthrough" | egrep '[s|S][[:blank:]]?85(,?)' | grep -vi "performance" | wc -l)
+
+    COUNTER=1
+    while [ $COUNTER -lt $PAGES ]; do
+        let COUNTER=COUNTER+1
+        NEXTSITE=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=$SEARCH&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&page=$COUNTER&sort=9")
+        CARSTHISPAGE=$(echo "$NEXTSITE" | grep "searchclickthrough" | egrep '[s|S][[:blank:]]?85(,?)' | grep -vi "performance" | wc -l)
+        let CARS=CARS+CARSTHISPAGE
+    done
+
+    echo "$SEARCH.value $CARS"
+else
+    CARS=$(echo "$SITE" | grep "searchclickthrough" | egrep '[s|S][[:blank:]]?85(,?)' | grep -vi "performance" | wc -l)
+    let CARS=CARS+0 # Make int
+    echo "$SEARCH.value $CARS"
+fi
+
+
+######
+## P85
+######
+SEARCH="p85"
+SITE=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=$SEARCH&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&sort=9")
+
+if [ `echo $SITE | grep -ci "pagination"` = 1 ]
+    then
+    PAGES=$(echo "$SITE" | grep search_pager | wc -l)
+    PAGES=$(expr $PAGES / 2)
+
+    P85CARS=$(echo "$SITE" | grep "searchclickthrough" | egrep '[p|P][[:blank:]]?85(,?)' | grep -vi "pluss" | grep -vi "p85+" | grep -vi "p85d" | wc -l)
+
+    COUNTER=1
+    while [ $COUNTER -lt $PAGES ]; do
+        let COUNTER=COUNTER+1
+        NEXTSITE=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=$SEARCH&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&page=$COUNTER&sort=9")
+        CARSTHISPAGE=$(echo "$NEXTSITE" | grep "searchclickthrough" | egrep '[p|P][[:blank:]]?85(,?)' | grep -vi "pluss" | grep -vi "p85+" | grep -vi "p85d" | wc -l)
+        let P85CARS=P85CARS+CARSTHISPAGE
+    done
+
+    echo "$SEARCH.value $P85CARS"
+else
+    P85CARS=$(echo "$SITE" | grep "searchclickthrough" | egrep '[p|P][[:blank:]]?85(,?)' | grep -vi "pluss" | grep -vi "p85+" | grep -vi "p85d" | wc -l)
+    let P85CARS=P85CARS+0 # Make int
+    echo "$SEARCH.value $P85CARS"
+fi
+
+
+######
+## P85D
+######
+SEARCH="p85d"
+SITE=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=$SEARCH&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&sort=9")
+
+if [ `echo $SITE | grep -ci "pagination"` = 1 ]
+    then
+    PAGES=$(echo "$SITE" | grep search_pager | wc -l)
+    PAGES=$(expr $PAGES / 2)
+
+    P85DCARS=$(echo "$SITE" | grep "searchclickthrough" | egrep '[p|P][[:blank:]]?85D(,?)' | wc -l)
+
+    COUNTER=1
+    while [ $COUNTER -lt $PAGES ]; do
+        let COUNTER=COUNTER+1
+        NEXTSITE=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=$SEARCH&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&page=$COUNTER&sort=9")
+        CARSTHISPAGE=$(echo "$NEXTSITE" | grep "searchclickthrough" | egrep '[p|P][[:blank:]]?85D(,?)' | wc -l)
+        let P85DCARS=P85DCARS+CARSTHISPAGE
+    done
+
+    echo "$SEARCH.value $P85DCARS"
+else
+    P85DCARS=$(echo "$SITE" | grep "searchclickthrough" | egrep '[p|P][[:blank:]]?85D(,?)' | wc -l)
+    let P85DCARS=P85DCARS+0 # Make int
+    echo "$SEARCH.value $P85DCARS"
+fi
+
+
+
+######
+## P85+
+######
+TOTALP85=$(curl -sA "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.101 Safari/537.36" "http://www.finn.no/finn/car/used/result?keyword=p85&carmodelmake=0%2F8078&carmodelmake=1%2F8078%2F2000138&sort=9" | grep "resultlist-counter" | cut -d">" -f 2 | cut -d"<" -f1)
+P85PLUSCARS=$(expr $TOTALP85 - $P85DCARS - $P85CARS)
+echo "p85plus.value $P85PLUSCARS"
+
