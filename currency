@@ -18,12 +18,16 @@ EOM
 esac
 
 echo -n "usd.value "
-curl -s -A "Mozilla/4.0" "http://www.xe.com/ucc/convert/?Amount=1&From=USD&To=NOK" | grep -i warning | grep -i nok | sed 's/<td width="46%" align="left">//g' | sed 's/&nbsp;NOK<!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+curl -s -A "Mozilla/4.0" "http://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=NOK" | grep "rightCol" | grep "WARNING" | sed 's/<td width="47%" align="left" class="rightCol">//g' | sed 's/&nbsp;<span class="uccResCde">NOK<\/span><!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+
 echo -n "eur.value "
-curl -s -A "Mozilla/4.0" "http://www.xe.com/ucc/convert/?Amount=1&From=EUR&To=NOK" | grep -i warning | grep -i nok | sed 's/<td width="46%" align="left">//g' | sed 's/&nbsp;NOK<!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+curl -s -A "Mozilla/4.0" "http://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=NOK" | grep "rightCol" | grep "WARNING" | sed 's/<td width="47%" align="left" class="rightCol">//g' | sed 's/&nbsp;<span class="uccResCde">NOK<\/span><!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+
 echo -n "sek.value "
-curl -s -A "Mozilla/4.0" "http://www.xe.com/ucc/convert/?Amount=10&From=SEK&To=NOK" | grep -i warning | grep -i nok | sed 's/<td width="46%" align="left">//g' | sed 's/&nbsp;NOK<!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+curl -s -A "Mozilla/4.0" "http://www.xe.com/currencyconverter/convert/?Amount=1&From=SEK&To=NOK" | grep "rightCol" | grep "WARNING" | sed 's/<td width="47%" align="left" class="rightCol">//g' | sed 's/&nbsp;<span class="uccResCde">NOK<\/span><!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+
 echo -n "dkk.value "
-curl -s -A "Mozilla/4.0" "http://www.xe.com/ucc/convert/?Amount=10&From=DKK&To=NOK" | grep -i warning | grep -i nok | sed 's/<td width="46%" align="left">//g' | sed 's/&nbsp;NOK<!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+curl -s -A "Mozilla/4.0" "http://www.xe.com/currencyconverter/convert/?Amount=1&From=DKK&To=NOK" | grep "rightCol" | grep "WARNING" | sed 's/<td width="47%" align="left" class="rightCol">//g' | sed 's/&nbsp;<span class="uccResCde">NOK<\/span><!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+
 echo -n "gbp.value "
-curl -s -A "Mozilla/4.0" "http://www.xe.com/ucc/convert/?Amount=1&From=GBP&To=NOK" | grep -i warning | grep -i nok | sed 's/<td width="46%" align="left">//g' | sed 's/&nbsp;NOK<!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
+curl -s -A "Mozilla/4.0" "http://www.xe.com/currencyconverter/convert/?Amount=1&From=GBP&To=NOK" | grep "rightCol" | grep "WARNING" | sed 's/<td width="47%" align="left" class="rightCol">//g' | sed 's/&nbsp;<span class="uccResCde">NOK<\/span><!-- WARNING: Automated extraction of rates is prohibited under the Terms of Use. -->//g' | egrep "[0-9].{1,}" -o
